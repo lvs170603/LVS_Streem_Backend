@@ -19,7 +19,8 @@ router.post('/', async (req, res) => {
     name: req.body.name,
     icon: req.body.icon,
     url: req.body.url,
-    category: req.body.category
+    category: req.body.category,
+    isActive: req.body.isActive !== undefined ? req.body.isActive : true
   });
 
   try {
