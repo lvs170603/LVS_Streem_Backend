@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
     icon: req.body.icon,
     url: req.body.url,
     category: req.body.category,
+    webPlayerUrl: req.body.webPlayerUrl,
     isActive: req.body.isActive !== undefined ? req.body.isActive : true
   });
 
