@@ -13,6 +13,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET stream URL for a specific channel (used by Flutter WebView player)
+router.get('/:id/stream-url', async (req, res) => {
+  try {
+    const channel = await Channel.findById(req.params.id);
+    if (!channel) return res.status(404).json({ message: 'Channel not found' });
+
+    // Prefer dedicated webPlayerUrl; fall back to raw HLS/RTMP url
+    const streamUrl = channel.webPlayerUrl && channel.webPlayerUrl.trim() !== ''
+      ? channel.webPlayerUrl
+      : channel.url;
+
+    res.json({ streamUrl, name: channel.name });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // POST a new channel
 router.post('/', async (req, res) => {
   const channel = new Channel({

@@ -20,6 +20,10 @@ const channelSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true,
+  },
+  webPlayerUrl: {
+    type: String,
+    default: '',   // optional: AIO player / embed URL for WebView playback
   }
 }, { timestamps: true });
 
