@@ -11,7 +11,7 @@ const channelSchema = new mongoose.Schema({
   },
   url: {
     type: String,
-    required: true,
+    default: '',  // optional if webPlayerUrl is set
   },
   category: {
     type: String,
