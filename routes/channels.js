@@ -20,9 +20,15 @@ router.get('/:id/stream-url', async (req, res) => {
     if (!channel) return res.status(404).json({ message: 'Channel not found' });
 
     // Prefer dedicated webPlayerUrl; fall back to raw HLS/RTMP url
-    const streamUrl = channel.webPlayerUrl && channel.webPlayerUrl.trim() !== ''
+    let streamUrl = channel.webPlayerUrl && channel.webPlayerUrl.trim() !== ''
       ? channel.webPlayerUrl
       : channel.url;
+
+    // If DNS is provided and URL is relative, prepend DNS
+    if (channel.dns && channel.dns.trim() !== '' && streamUrl.startsWith('/')) {
+      const dns = channel.dns.trim().replace(/\/$/, ''); // remove trailing slash if any
+      streamUrl = `${dns}${streamUrl}`;
+    }
 
     res.json({ streamUrl, name: channel.name });
   } catch (error) {
@@ -38,6 +44,7 @@ router.post('/', async (req, res) => {
     url: req.body.url,
     category: req.body.category,
     webPlayerUrl: req.body.webPlayerUrl,
+    dns: req.body.dns,
     isActive: req.body.isActive !== undefined ? req.body.isActive : true
   });
 

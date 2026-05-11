@@ -24,6 +24,10 @@ const channelSchema = new mongoose.Schema({
   webPlayerUrl: {
     type: String,
     default: '',   // optional: AIO player / embed URL for WebView playback
+  },
+  dns: {
+    type: String,
+    default: '',   // optional: custom DNS/IP for prepending to relative URLs
   }
 }, { timestamps: true });
 
